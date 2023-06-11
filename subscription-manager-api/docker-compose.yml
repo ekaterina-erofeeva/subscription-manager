@@ -1,0 +1,21 @@
+version: '3.7'
+services:
+  app:
+    container_name: subscription-manager-api
+    image: subscription-manager-api
+    build: ../../commit
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:15.3
+#    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=subscription_management
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./sql-scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
