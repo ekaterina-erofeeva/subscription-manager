@@ -4,6 +4,7 @@ This is a simple application in development to manage users, services and subscr
 - backend (in ./subscription-manager-api)
 ```bash
 mvn clean install -DskipTests=true
+docker build -t subscription-manager-api .
 docker-compose up
 ```
 - frontend (in ./react-ui)
