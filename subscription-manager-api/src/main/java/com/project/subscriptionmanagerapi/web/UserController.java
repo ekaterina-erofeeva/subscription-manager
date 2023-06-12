@@ -55,7 +55,6 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-   @CrossOrigin
    @DeleteMapping(value = "/users/{id}")
    public ResponseEntity<String> deleteUser (@PathVariable Integer id){
         Optional<User> user = userRepository.findById(id);

@@ -17,12 +17,27 @@ public class SubscriptionPlanController {
     SubscriptionPlanRepository subscriptionPlanRepository;
 
     @GetMapping("/subscriptionPlans")
-    public List<SubscriptionPlan> getUsers(){
+    public List<SubscriptionPlan> getSubscriptionPlans(){
         return subscriptionPlanRepository.findAll();
     }
 
-    @PostMapping("/addSubscription")
-    public void addSubscription(@RequestBody SubscriptionPlan subscriptionPlan){
+    @PostMapping("/addSubscriptionPlan")
+    public ResponseEntity<String> addSubscriptionPlan (@RequestBody SubscriptionPlan subscriptionPlan) {
+        Optional<SubscriptionPlan> xSubscriptionPlan = subscriptionPlanRepository.findByName(subscriptionPlan.getName());
+        if (xSubscriptionPlan.isPresent()) {
+            return new ResponseEntity<>("Subscription plan with name " + subscriptionPlan.getName() + " already exists. ", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         subscriptionPlanRepository.save(subscriptionPlan);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @CrossOrigin
+    @DeleteMapping(value = "/subscriptionPlans/{id}")
+    public ResponseEntity<String> deleteUser (@PathVariable Integer id){
+        Optional<SubscriptionPlan> subscriptionPlan = subscriptionPlanRepository.findById(id);
+        if(subscriptionPlan.isPresent()){
+            subscriptionPlanRepository.delete(subscriptionPlan.get());
+            return new ResponseEntity<>("Removed subscription plan with id: " + id, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

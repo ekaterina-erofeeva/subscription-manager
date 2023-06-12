@@ -5,7 +5,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 export const userColumns = [
   { field: "firstName", headerName: "First name", width: 130 },
   { field: "lastName", headerName: "Last name", width: 130 },
-  { field: "email", headerName: "Email", width: 130 },
+  { field: "email", headerName: "Email", width: 180 },
   { field: "subscription", headerName: "Subscription", width: 130 },
   {
     field: "edit",
@@ -104,6 +104,11 @@ export const subscriptionColumns = [
     renderCell: (params) => {
       const onClick = (e) => {
         console.log("Delete ID " + params.id);
+        fetch(`http://localhost:8080/subscriptionPlans/${params.id}`, {
+          method: "DELETE",
+        }).then((result) => {
+          console.log(result);
+        });
       };
 
       return (
